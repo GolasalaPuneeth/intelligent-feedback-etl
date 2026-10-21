@@ -1,7 +1,7 @@
 from sqlmodel.ext.asyncio.session import AsyncSession
 from fastapi import FastAPI,Request,Depends
 from contextlib import asynccontextmanager
-# from Routes import paymentRoute,testcases
+from RoutesLayer import FeedBackRoute
 # from Database_Layer import init_db
 import time
 
@@ -12,8 +12,8 @@ async def lifespan(app: FastAPI):
     yield
     print("---------------> Pull Down")
     
-app = FastAPI(title="Payment API",
-              description="API for handling payment processing",
+app = FastAPI(title="Intelligent Feedback ETL API",
+              description="Ingests customer feedback and support webhooks for asynchronous AI-powered processing, including structured extraction, PII redaction, and persistence.",
                version="1.0.0",
                lifespan=lifespan)
 
@@ -26,7 +26,7 @@ async def add_process_time_header(request: Request, call_next):
     response.headers["X-Response-Time"] = f"{execution_time:.2f} ms"
     return response
 
-# app.include_router(paymentRoute)
+app.include_router(FeedBackRoute,prefix="/api")
 # app.include_router(testcases)
 
 # as sample code for refference
