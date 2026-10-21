@@ -1,5 +1,4 @@
 import hashlib
-import json
 from ValidationLayer import FeedbackHookValidation
 
 class hasher:
@@ -9,12 +8,9 @@ class hasher:
             by_alias=True, exclude_unset=True
         )
         payload_hash = hashlib.sha256(canonical_json.encode("utf-8")).hexdigest()
-        print(f"Canonical JSON: {canonical_json}")
+        # print(f"Canonical JSON: {canonical_json}")
         print(f"SHA-256 Hash: {payload_hash}")
-        return {
-            "canonical_json":canonical_json,
-            "payload_hash_SHA_256":payload_hash
-        }
+        return payload_hash
 
 # payload_instance = FeedbackHookValidation(
 #     source_id="TICK-99482",
