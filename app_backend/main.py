@@ -31,8 +31,6 @@ async def add_process_time_header(request: Request, call_next):
 
 # as sample code for refference
 
-# @app.post("/students/", response_model=Student)
-# async def create_student_endpoint(
-#     student: Student, db: AsyncSession = Depends(get_db)
-# ):
-#     return await repo.create_student(session=db, student=student)
+# @app.post("/students/")
+# async def create_student_endpoint():
+#     return ['Hwllo']
