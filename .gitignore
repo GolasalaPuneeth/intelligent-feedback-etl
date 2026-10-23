@@ -3,3 +3,5 @@
 /postgres/*
 __pycache__
 redis
+postgres
+pgadmin_data
