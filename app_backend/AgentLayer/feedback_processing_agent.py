@@ -17,6 +17,7 @@ feedback_agent = Agent(
     ),
 )
 
+# Injection allows callers to substitute an agent with different settings.
 async def fb_agent(raw_feedback,feedback_agent:Agent = feedback_agent):
     result = await feedback_agent.run(raw_feedback)
     return result.output.model_dump_json()

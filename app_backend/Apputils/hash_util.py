@@ -4,6 +4,7 @@ from ValidationLayer import FeedbackHookValidation
 class hasher:
     @staticmethod
     def get_hash(data:FeedbackHookValidation):
+        # Stable serialization makes identical validated payloads share a fingerprint.
         canonical_json = data.model_dump_json(
             by_alias=True, exclude_unset=True
         )
