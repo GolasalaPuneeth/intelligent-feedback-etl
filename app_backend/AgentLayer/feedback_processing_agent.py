@@ -8,12 +8,14 @@ feedback_agent = Agent(
     model="google:gemini-3.1-flash-lite",
     output_type=FeedbackAnalysis,
     system_prompt=(
-        "You are an expert AI data processing agent. Your task is to:"
+        "You are an expert AI data processing agent. Your tasks are:"
         "\n1. Strict PII Redaction: Mask all personal info (names, emails,"
         " phones) with [REDACTED]."
-        "\n2. Categorization & Sentiment: Accurately categorize the text and"
-        " gauge sentiment."
-        "\n3. Adhere strictly to the defined output schema."
+        "\n2. Categorization & Sentiment: Accurately categorize the text, pick"
+        " the exact enum value for sentiment and urgency."
+        "\n3. Keyword Extraction: Pull out key technical tags, error mentions,"
+        " or feature components into the extracted_keywords list."
+        "\n4. Adhere strictly to the defined output schema."
     ),
 )
 

@@ -10,7 +10,7 @@ celery_app : Celery = Celery(
     "Agent_Handler",
     broker=REDIS_URL,
     backend=REDIS_URL,
-    include=["Celery_worker.tasks"]
+    include=["CeleryLayer.tasks"]
 )
 
 celery_app.conf.update(
@@ -20,4 +20,5 @@ celery_app.conf.update(
     timezone="UTC",
     enable_utc=True,
     task_track_started=True,
+    result_expires=3600
 )

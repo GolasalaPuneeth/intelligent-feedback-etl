@@ -50,3 +50,24 @@ services:
     volumes:
       - ./app_backend:/app
   
+  celery_worker:
+    build:
+      context: ./app_backend
+      dockerfile: Dockerfile.celery
+    volumes:
+      - ./app_backend:/app
+    depends_on:
+      redis:
+        condition: service_started
+
+  flower_ui:
+    build:
+      context: ./app_backend
+      dockerfile: Dockerfile.flower
+    ports:
+      - "5555:5555"
+    volumes:
+      - ./app_backend:/app
+    depends_on:
+      redis:
+        condition: service_started

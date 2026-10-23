@@ -30,3 +30,10 @@ class FeedbackAnalysis(BaseModel):
   urgency: Urgency = Field(
       description="Urgency level: Low, Medium, High, or Critical"
   )
+  extracted_keywords: list[str] = Field(
+    description=(
+              "Extract key technical tags, software components, or error"
+              " identifiers mentioned in the text."
+          )
+  )
+      
