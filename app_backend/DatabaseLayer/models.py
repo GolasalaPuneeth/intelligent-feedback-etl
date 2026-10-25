@@ -1,30 +1,31 @@
+from datetime import datetime
 from sqlmodel import Field, SQLModel
+from sqlalchemy import Column, JSON
 
 
-class TransactionLogs(SQLModel, table=True):
-    __tablename__ = "transaction_logs"
+class FeedbackRecord(SQLModel, table=True):
+  __tablename__ = "feedback_records"
 
-    id: int | None = Field(default=None, primary_key=True)
-    trx_metadata: str
+  # Primary Key & Idempotency Hash (Prevents duplicate webhook processing)
+  payload_hash: str = Field(primary_key=True, index=True, max_length=64)
 
-class TransactionLogs_V2(SQLModel, table=True):
-    __tablename__ = "transaction_logs_v2"
+  # Ingestion Metadata
+  source_id: str = Field(index=True, nullable=False)
+  channel: str = Field(index=True, nullable=False)
+  raw_text: str = Field(nullable=False)
 
-    id: str | None = Field(primary_key=True)
-    trx_metadata: str
+  # AI Extracted & Redacted Output Fields
+  sanitized_text: str = Field(nullable=False)
+  category: str = Field(index=True, nullable=False)
+  sentiment: str = Field(index=True, nullable=False)
+  urgency: str = Field(index=True, nullable=False)
 
+  # Stored as a native PostgreSQL JSON array for clean list querying
+  extracted_keywords: list[str] = Field(
+      default_factory=list, sa_column=Column(JSON, nullable=False)
+  )
 
-class DeviceLogs(SQLModel, table=True):
-    __tablename__ = "device_logs"
-
-    id: int | None = Field(default=None, primary_key=True)
-    device_id: str
-    trx_status: str = Field(default="PENDING")
-    trx_metadata: str
-    
-class DeviceSettings(SQLModel, table=True):
-    __tablename__ = "device_settings"
-
-    id: int | None = Field(default=None, primary_key=True)
-    device_id: str
-    settings: str
+  # Audit Timestamp
+  created_at: datetime = Field(
+      default_factory=datetime.utcnow, nullable=False
+  )
