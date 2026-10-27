@@ -14,3 +14,10 @@ class FeedBackProcessor:
             return None
         # await self.FeedbackChecker(hash)
         # return hash
+#sample data
+
+# {
+#   "source_id": "TICK-99482",
+#   "channel": "zendesk_webhook",
+#   "raw_text": "URGENT! My payment failed for subscription ID 4481. My name is John Doe, call me at 555-0199 or john@example.com ASAP! Fix this app crash!"
+# }
