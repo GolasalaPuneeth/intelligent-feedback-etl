@@ -14,4 +14,5 @@ COPY . .
 
 EXPOSE 8001
 
-CMD ["granian", "--interface", "asgi","main:app", "--host", "0.0.0.0", "--port", "8001", "--reload"]
+# CMD ["granian", "--interface", "asgi","main:app", "--host", "0.0.0.0", "--port", "8001", "--reload"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8001", "--reload"]

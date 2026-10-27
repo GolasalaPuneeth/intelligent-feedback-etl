@@ -25,7 +25,8 @@ class Repo(Irepo):
     def check_record_persist(self, hash:str):
         with Session(engine) as session:
             statement = select(FeedbackRecord).where(FeedbackRecord.payload_hash == hash)
-            results = session.exec(statement)
-            print(results)
-            for hero in results:
-                print(hero)
+            results = session.exec(statement).first() is not None
+            # print(results)
+            # for hero in results:
+            #     print(hero)
+            return results
