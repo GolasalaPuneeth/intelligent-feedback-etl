@@ -1,16 +1,29 @@
 from .config import celery_app
-# from sqlmodel import Session
 from time import sleep
 from AgentLayer import fb_agent
 import asyncio
-
+from DatabaseLayer import Repo
 # Retry task failures with exponential backoff, up to five retries.
 @celery_app.task(
     bind=True,
-    autoretry_for=(Exception,),
+    autoretry_for=(TimeoutError,ConnectionError),
     retry_backoff=True,
     max_retries=3
 )
 def test_task(self,data):
+    repo:Repo = Repo()
     res = asyncio.run(fb_agent(data['raw_text']))
-    return res
+    record_data = {
+            "payload_hash": "7c53d9e843c0897b69cd5bb01f68f117c49b0688a2c2b640e53612d7c58fcd7e",
+            "source_id": data['source_id'],
+            "channel": data['channel'],
+            "raw_text": data['raw_text'],
+            "sanitized_text": res['sanitized_text'],
+            "category": res['category'],
+            "sentiment": res['sentiment'],
+            "urgency": res['urgency'],
+            "extracted_keywords": res['extracted_keywords'],
+        }
+
+    repo.save_feedback_record(record_data)
+    return record_data

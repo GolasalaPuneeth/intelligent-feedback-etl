@@ -1,6 +1,7 @@
 from datetime import datetime
 from sqlmodel import Field, SQLModel
 from sqlalchemy import Column, JSON
+from datetime import datetime, timezone
 
 
 class FeedbackRecord(SQLModel, table=True):
@@ -27,5 +28,5 @@ class FeedbackRecord(SQLModel, table=True):
 
   # Audit Timestamp
   created_at: datetime = Field(
-      default_factory=datetime.utcnow, nullable=False
-  )
+    default_factory=lambda: datetime.now(timezone.utc), nullable=False
+    )
