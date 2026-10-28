@@ -10,11 +10,11 @@ from DatabaseLayer import Repo
     retry_backoff=True,
     max_retries=3
 )
-def test_task(self,data):
+def test_task(self,data,hash):
     repo:Repo = Repo()
     res = asyncio.run(fb_agent(data['raw_text']))
     record_data = {
-            "payload_hash": "7c53d9e843c0897b69cd5bb01f68f117c49b0688a2c2b640e53612d7c58fcd7e",
+            "payload_hash": hash,
             "source_id": data['source_id'],
             "channel": data['channel'],
             "raw_text": data['raw_text'],

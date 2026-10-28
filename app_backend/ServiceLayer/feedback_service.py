@@ -1,6 +1,7 @@
 from ValidationLayer import FeedbackHookValidation
 from Apputils import hasher
 from DatabaseLayer import Irepo,Repo
+from CeleryLayer import test_task
 
 repo : Irepo = Repo()
 
@@ -11,9 +12,9 @@ class FeedBackProcessor:
         print("[SERVICE]->",hash)
         if repo.check_record_persist(hash):
             print("[SERVICE]","Found")
-            return None
-        # await self.FeedbackChecker(hash)
-        # return hash
+            return {"FOUND":True}
+        res = test_task.delay(data.model_dump(),hash)
+        return res.id
 #sample data
 
 # {
