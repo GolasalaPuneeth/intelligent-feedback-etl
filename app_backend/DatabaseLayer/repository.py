@@ -12,21 +12,36 @@ from typing import Any
 #     await session.refresh(tranxlogs)
 #     return tranxlogs
 
-# def tranx_device_logs(data: TransactionLogs,sync_session:Session):
-#     sync_session.add(data)
-#     sync_session.commit()
+
+# class Repo(Irepo):
+#     def save_feedback_record(self,data: dict[str, Any]):
+#         with Session(engine) as session:
+#             session.add(FeedbackRecord(**data))
+#             session.commit()
+
+#     def check_record_persist(self, hash:str):
+#         with Session(engine) as session:
+#             statement = select(FeedbackRecord).where(FeedbackRecord.payload_hash == hash)
+#             results = session.exec(statement).first() is not None
+#             return results
 
 class Repo(Irepo):
-    def save_feedback_record(self,data: dict[str, Any]):
+    def save_feedback_record(self, data: dict[str, Any]) -> None:
         with Session(engine) as session:
-            session.add(FeedbackRecord(**data))
-            session.commit()
+            try:
+                session.add(FeedbackRecord(**data))
+                session.commit()
+            except Exception:
+                session.rollback()
+                raise
 
-    def check_record_persist(self, hash:str):
+    def check_record_persist(self, hash: str) -> bool:
         with Session(engine) as session:
-            statement = select(FeedbackRecord).where(FeedbackRecord.payload_hash == hash)
-            results = session.exec(statement).first() is not None
-            # print(results)
-            # for hero in results:
-            #     print(hero)
-            return results
+            try:
+                statement = select(FeedbackRecord).where(
+                    FeedbackRecord.payload_hash == hash
+                )
+                return session.exec(statement).first() is not None
+            except Exception:
+                session.rollback()
+                raise

@@ -3,7 +3,7 @@ from time import sleep
 from AgentLayer import fb_agent
 import asyncio
 from DatabaseLayer import Repo
-# Retry task failures with exponential backoff, up to five retries.
+
 @celery_app.task(
     bind=True,
     autoretry_for=(TimeoutError,ConnectionError),

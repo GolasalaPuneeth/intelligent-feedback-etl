@@ -9,9 +9,9 @@ class FeedBackProcessor:
     
     async def ProcessFeedBack(self,data:FeedbackHookValidation):
         hash = hasher.get_hash(data)
-        print("[SERVICE]->",hash)
+        # print("[SERVICE]->",hash)
         if repo.check_record_persist(hash):
-            print("[SERVICE]","Found")
+            # print("[SERVICE]","Found")
             return {"FOUND":True}
         res = test_task.delay(data.model_dump(),hash)
         return res.id

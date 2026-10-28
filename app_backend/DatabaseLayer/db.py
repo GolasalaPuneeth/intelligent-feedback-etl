@@ -9,8 +9,8 @@ load_dotenv()
 
 DATABASE_URL=os.getenv('DATABASE_URL')
 SYNC_DATABASE_URL = os.getenv('SYNC_DATABASE_URL')
-async_engine = create_async_engine(DATABASE_URL, echo=True, pool_pre_ping=True)
-engine = create_engine(SYNC_DATABASE_URL, echo=True)
+async_engine = create_async_engine(DATABASE_URL, pool_pre_ping=True)
+engine = create_engine(SYNC_DATABASE_URL)
 
 async def get_async_db_session() -> AsyncGenerator[AsyncSession, None]:
     """FastAPI Dependency Injection for AsyncSession."""

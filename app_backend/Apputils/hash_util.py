@@ -9,7 +9,7 @@ class hasher:
             by_alias=True, exclude_unset=True
         )
         payload_hash = hashlib.sha256(canonical_json.encode("utf-8")).hexdigest()
-        print(f"SHA-256 Hash: {payload_hash}")
+        # print(f"SHA-256 Hash: {payload_hash}")
         return payload_hash
 
 # payload_instance = FeedbackHookValidation(
