@@ -1,7 +1,8 @@
 from fastapi import APIRouter
-from ValidationLayer import FeedbackHookValidation
+from ValidationLayer import FeedbackHookValidation,FeedbackHookValidation_200,FeedbackHookValidation_409
 from ServiceLayer import FeedBackProcessor
-from CeleryLayer import test_task
+from typing import Union
+
 FeedBackRoute = APIRouter(tags=["Feedback Webhooks"], prefix="/v1")
 feedback_service = FeedBackProcessor()
 
@@ -16,27 +17,44 @@ feedback_service = FeedBackProcessor()
         "was already persisted, the response is `{\"FOUND\": true}`."
     ),
     response_description="The Celery task ID, or a duplicate-record indicator.",
-    response_model=str | dict[str, bool],
+    response_model=FeedbackHookValidation_200 | FeedbackHookValidation_409,
     responses={
         200: {
+            "description": "Successful operation / Feedback processed",
             "content": {
                 "application/json": {
                     "examples": {
-                        "queued": {
-                            "summary": "Feedback queued",
-                            "value": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-                        },
+                        "success": {
+                            "summary": "Valid feedback response",
+                            "value": {
+                                "hash": "abc123hashvalue",
+                                "id": "task-uuid-or-id",
+                                "message": "'ID' is valied only for 30mins for monitoring"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        409: {
+            "description": "Conflict / Track found using hash",
+            "content": {
+                "application/json": {
+                    "examples": {
                         "duplicate": {
-                            "summary": "Feedback already persisted",
-                            "value": {"FOUND": True},
-                        },
+                            "summary": "Found track using hash",
+                            "value": {
+                                "hash": "abc123hashvalue",
+                                "message": "Found track using 'hash'"
+                            }
+                        }
                     }
                 }
             }
         }
     },
 )
-async def test(feedbackdata: FeedbackHookValidation) -> str | dict[str, bool]:
+async def test(feedbackdata: FeedbackHookValidation) -> FeedbackHookValidation_200 | FeedbackHookValidation_409:
     return await feedback_service.ProcessFeedBack(feedbackdata)
 
 # @FeedBackRoute.post("/test")
