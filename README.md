@@ -120,14 +120,10 @@ cd fastapi-pydantic-ai-etl
 ### 2. Configure Environment Variables
 Create a `.env` file in the root directory:
 ```env
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=postgres
-POSTGRES_DB=feedback_db
-POSTGRES_HOST=db
-POSTGRES_PORT=5432
-
-REDIS_URL=redis://redis:6379/0
-OPENAI_API_KEY=your_openai_api_key_here
+GEMINI_API_KEY = XXXXXXXXXXXXXXXXX
+REDIS_URL = redis://redis_cache:6379/0
+DATABASE_URL=postgresql+asyncpg://postgres:Admin123@postgres_db:5432/feedback_database
+SYNC_DATABASE_URL=postgresql://postgres:Admin123@postgres_db:5432/feedback_database
 ```
 
 ### 3. Run with Docker Compose
