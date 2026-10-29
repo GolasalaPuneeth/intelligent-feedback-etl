@@ -139,7 +139,9 @@ docker compose up --build -d
 ### 4. Service Endpoints
 * **FastAPI Docs:** `http://localhost:8000/docs`
 * **Flower Monitoring:** `http://localhost:5555`
-* **PostgreSQL:** `localhost:5432`
+* **PostgreSQL:** `http://localhost:5432`
+* **pgAdmin:** `http://localhost:5050`
+
 
 ---
 

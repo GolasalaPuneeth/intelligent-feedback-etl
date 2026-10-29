@@ -1,3 +1,3 @@
-from .tasks import test_task
+from .tasks import process_feedback_analysis_task
 
-__all__ = ("test_task",)
+__all__ = ("process_feedback_analysis_task",)

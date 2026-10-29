@@ -2,7 +2,7 @@ from fastapi.responses import JSONResponse
 from ValidationLayer import FeedbackHookValidation,FeedbackHookValidation_200,FeedbackHookValidation_409
 from Apputils import hasher
 from DatabaseLayer import Irepo,Repo
-from CeleryLayer import test_task
+from CeleryLayer import process_feedback_analysis_task
 
 repo : Irepo = Repo()
 
@@ -21,7 +21,7 @@ class FeedBackProcessor:
                     'message':"Found track using 'hash'"
                 }
             )
-        res = test_task.delay(data.model_dump(),hash)
+        res = process_feedback_analysis_task.delay(data.model_dump(),hash)
         # res.id
         return FeedbackHookValidation_200(hash=hash,
                                           id=res.id)

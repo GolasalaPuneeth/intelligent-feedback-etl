@@ -10,7 +10,7 @@ from DatabaseLayer import Repo
     retry_backoff=True,
     max_retries=3
 )
-def test_task(self,data,hash):
+def process_feedback_analysis_task(self,data,hash):
     repo:Repo = Repo()
     res = asyncio.run(fb_agent(data['raw_text']))
     record_data = {
