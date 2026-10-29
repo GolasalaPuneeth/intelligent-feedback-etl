@@ -113,7 +113,7 @@ graph TD
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/<your-username>/fastapi-pydantic-ai-etl.git
+git clone https://github.com/GolasalaPuneeth/intelligent-feedback-etl.git
 cd fastapi-pydantic-ai-etl
 ```
 
