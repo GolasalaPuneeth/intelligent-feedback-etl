@@ -34,6 +34,6 @@ def process_feedback_analysis_task(self, data, hash):
             source_id=data["source_id"],
             channel=data["channel"],
             raw_text=data["raw_text"],
-            error_info=exc
+            error_info=str(exc)
         ))
         raise
