@@ -1,4 +1,4 @@
-from .models import FeedbackRecord
+from .models import FeedbackRecord,PayloadErrorLogs
 from .db import engine
 from sqlmodel import select,Session
 from sqlmodel.ext.asyncio.session import AsyncSession
@@ -45,3 +45,13 @@ class Repo(Irepo):
             except Exception:
                 session.rollback()
                 raise
+    def add_error_log_info(self, data:PayloadErrorLogs):
+        with Session(engine) as session:
+            try:
+                session.add(data)
+                session.commit()
+                return True
+            except Exception:
+                session.rollback()
+                raise
+       

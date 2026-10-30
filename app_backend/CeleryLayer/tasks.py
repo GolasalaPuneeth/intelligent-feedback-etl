@@ -2,7 +2,7 @@ from .config import celery_app
 from time import sleep
 from AgentLayer import fb_agent
 import asyncio
-from DatabaseLayer import Repo
+from DatabaseLayer import Repo,PayloadErrorLogs
 
 @celery_app.task(
     bind=True,
@@ -25,9 +25,15 @@ def process_feedback_analysis_task(self, data, hash):
             "urgency": res["urgency"],
             "extracted_keywords": res["extracted_keywords"],
         }
-
         repo.save_feedback_record(record_data)
         return record_data
     except Exception as exc:
         print(f"Error processing feedback analysis task: {exc}")
+        repo.add_error_log_info(PayloadErrorLogs(
+            payload_hash=hash,
+            source_id=data["source_id"],
+            channel=data["channel"],
+            raw_text=data["raw_text"],
+            error_info=exc
+        ))
         raise

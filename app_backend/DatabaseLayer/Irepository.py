@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Any
+from .models import PayloadErrorLogs
 
 class Irepo(ABC):
   @abstractmethod
@@ -33,5 +34,19 @@ class Irepo(ABC):
     Raises:
         NotImplementedError: If the concrete repository implementation does not
           override this method.
+    """
+    raise NotImplementedError
+
+  @abstractmethod
+  def add_error_log_info(self,data: PayloadErrorLogs):
+    """Persists error details for a feedback payload.
+
+    Args:
+        data (PayloadErrorLogs): The payload metadata and error information to
+          record.
+
+    Raises:
+        NotImplementedError: If the concrete repository does not override this
+          method.
     """
     raise NotImplementedError
